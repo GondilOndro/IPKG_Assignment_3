@@ -27,6 +27,7 @@ namespace FileReadingLib
             return content;
         }
 
+        /// <inheritdoc/>
         public string ReadTextFile(string path, bool isEncrypted, RoleType? role)
         {
             if (role != null && !_roleSecurity.ValidateAccessToFile(path, role.Value))
@@ -50,6 +51,7 @@ namespace FileReadingLib
             return FormatXml(content);
         }
 
+        /// <inheritdoc/>
         public string ReadXmlFile(string path, bool isEncrypted, RoleType? role)
         {
             if (role != null && !_roleSecurity.ValidateAccessToFile(path, role.Value))
@@ -71,6 +73,16 @@ namespace FileReadingLib
             var content = ReadFile(path, isEncrypted);
 
             return FormatJson(content);
+        }
+
+        public string ReadJsonFile(string path, bool isEncrypted, RoleType? role)
+        {
+            if (role != null && !_roleSecurity.ValidateAccessToFile(path, role.Value))
+            {
+                throw new UnauthorizedAccessException("Content of this file is not accessible by your role.");
+            }
+
+            return ReadJsonFile(path, isEncrypted);
         }
 
         /// <summary>
