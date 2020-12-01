@@ -61,14 +61,14 @@ namespace FileReadingLib
         }
 
         /// <inheritdoc/>
-        public string ReadJsonFile(string path)
+        public string ReadJsonFile(string path, bool isEncrypted)
         {
             if (!path.EndsWith(".json"))
             {
                 throw new ArgumentException("Provided file have not correct format. Required file format is .json.");
             }
 
-            var content = ReadFile(path, false);
+            var content = ReadFile(path, isEncrypted);
 
             return FormatJson(content);
         }
