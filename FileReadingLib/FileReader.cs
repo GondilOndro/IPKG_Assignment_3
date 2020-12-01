@@ -1,4 +1,5 @@
-﻿using FileReadingLib.Interfaces;
+﻿using FileReadingLib.Enums;
+using FileReadingLib.Interfaces;
 using System;
 using System.IO;
 using System.Xml.Linq;
@@ -9,6 +10,7 @@ namespace FileReadingLib
     public class FileReader : IFileReader
     {
         private readonly ICrypter _crypter = new Crypter();
+        private readonly IRoleSecurity _roleSecurity = new RoleSecurity();
 
         /// <inheritdoc/>
         public string ReadTextFile(string path, bool isEncrypted)
@@ -36,6 +38,16 @@ namespace FileReadingLib
             return FormatXml(content);
         }
 
+        public string ReadXmlFile(string path, RoleType? role)
+        {
+            if (role != null && !_roleSecurity.ValidateAccessToFile(path, role.Value))
+            {
+                throw new UnauthorizedAccessException("Content of this file is not accessible by your role.");
+            }
+
+            return ReadXmlFile(path);
+        }
+
         /// <summary>
         /// Reads a file content.
         /// </summary>
@@ -44,8 +56,6 @@ namespace FileReadingLib
         /// <returns>Plain file content.</returns>
         private string ReadFile(string path, bool isEncrypted = false)
         {
-            string result;
-
             if (isEncrypted)
             {
                 return _crypter.DecryptFile(path);

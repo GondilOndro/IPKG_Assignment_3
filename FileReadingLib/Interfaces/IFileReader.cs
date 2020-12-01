@@ -1,4 +1,6 @@
-﻿namespace FileReadingLib.Interfaces
+﻿using FileReadingLib.Enums;
+
+namespace FileReadingLib.Interfaces
 {
     // Provides methods for reading files
     public interface IFileReader
@@ -17,5 +19,13 @@
         /// <param name="path">Path to file to be read.</param>
         /// <returns>Formated content of the XML file.</returns>
         string ReadXmlFile(string path);
+
+        /// <summary>
+        /// Method for reading XML file.
+        /// </summary>
+        /// <param name="path">Path to file to be read.</param>
+        /// <param name="role">Defining role of user.</param>
+        /// <returns>Formated content of the XML file.</returns>
+        string ReadXmlFile(string path, RoleType? role);
     }
 }
