@@ -17,15 +17,17 @@ namespace FileReadingLib.Interfaces
         /// Method for reading XML file.
         /// </summary>
         /// <param name="path">Path to file to be read.</param>
+        /// <param name="isEncrypted">Indicates whether file is encrypted and should be decrypted before showing.</param>
         /// <returns>Formated content of the XML file.</returns>
-        string ReadXmlFile(string path);
+        string ReadXmlFile(string path, bool isEncrypted);
 
         /// <summary>
         /// Method for reading XML file.
         /// </summary>
         /// <param name="path">Path to file to be read.</param>
+        /// <param name="isEncrypted">Indicates whether file is encrypted and should be decrypted before showing.</param>
         /// <param name="role">Defining role of user.</param>
         /// <returns>Formated content of the XML file.</returns>
-        string ReadXmlFile(string path, RoleType? role);
+        string ReadXmlFile(string path, bool isEncrypted, RoleType? role);
     }
 }

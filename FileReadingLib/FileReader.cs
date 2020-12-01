@@ -26,26 +26,26 @@ namespace FileReadingLib
         }
 
         /// <inheritdoc/>
-        public string ReadXmlFile(string path)
+        public string ReadXmlFile(string path, bool isEncrypted)
         {
             if (!path.EndsWith(".xml"))
             {
                 throw new ArgumentException("Provided file have not correct format. Required file format is .xml.");
             }
 
-            var content = ReadFile(path);
+            var content = ReadFile(path, isEncrypted);
 
             return FormatXml(content);
         }
 
-        public string ReadXmlFile(string path, RoleType? role)
+        public string ReadXmlFile(string path, bool isEncrypted, RoleType? role)
         {
             if (role != null && !_roleSecurity.ValidateAccessToFile(path, role.Value))
             {
                 throw new UnauthorizedAccessException("Content of this file is not accessible by your role.");
             }
 
-            return ReadXmlFile(path);
+            return ReadXmlFile(path, isEncrypted);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace FileReadingLib
         /// <param name="path">Path to the file.</param>
         /// <param name="isEncrypted">Indicates whether file is encrypted and should be decrypted before showing.</param>
         /// <returns>Plain file content.</returns>
-        private string ReadFile(string path, bool isEncrypted = false)
+        private string ReadFile(string path, bool isEncrypted)
         {
             if (isEncrypted)
             {
