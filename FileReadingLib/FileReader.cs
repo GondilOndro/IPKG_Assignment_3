@@ -1,5 +1,7 @@
 ﻿using FileReadingLib.Enums;
 using FileReadingLib.Interfaces;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Xml.Linq;
@@ -58,6 +60,19 @@ namespace FileReadingLib
             return ReadXmlFile(path, isEncrypted);
         }
 
+        /// <inheritdoc/>
+        public string ReadJsonFile(string path)
+        {
+            if (!path.EndsWith(".json"))
+            {
+                throw new ArgumentException("Provided file have not correct format. Required file format is .json.");
+            }
+
+            var content = ReadFile(path, false);
+
+            return FormatJson(content);
+        }
+
         /// <summary>
         /// Reads a file content.
         /// </summary>
@@ -92,6 +107,25 @@ namespace FileReadingLib
             catch (Exception e)
             {
                 throw new Exception($"Parsing XML file failed: {e}");
+            }
+        }
+
+        /// <summary>
+        /// Formats content of JSON file as a pretty print JSON.
+        /// </summary>
+        /// <param name="jsonContent">Plain content of JSON file.</param>
+        /// <returns>Formated XML content.</returns>
+        private string FormatJson(string jsonContent)
+        {
+            try
+            {
+                string jsonDoc = JValue.Parse(jsonContent).ToString(Formatting.Indented);
+                return jsonDoc;
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Parsing JSON file failed: {e}");
+
             }
         }
     }
