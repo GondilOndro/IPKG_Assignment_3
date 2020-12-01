@@ -8,15 +8,17 @@ namespace FileReadingLib
     /// <inheritdoc/>
     public class FileReader : IFileReader
     {
+        private readonly ICrypter _crypter = new Crypter();
+
         /// <inheritdoc/>
-        public string ReadTextFile(string path)
+        public string ReadTextFile(string path, bool isEncrypted)
         {
             if (!path.EndsWith(".txt"))
             {
                 throw new ArgumentException("Provided file have not correct format. Required file format is .txt.");
             }
 
-            var content = ReadFile(path);
+            var content = ReadFile(path, isEncrypted);
 
             return content;
         }
@@ -38,9 +40,17 @@ namespace FileReadingLib
         /// Reads a file content.
         /// </summary>
         /// <param name="path">Path to the file.</param>
+        /// <param name="isEncrypted">Indicates whether file is encrypted and should be decrypted before showing.</param>
         /// <returns>Plain file content.</returns>
-        private string ReadFile(string path)
+        private string ReadFile(string path, bool isEncrypted = false)
         {
+            string result;
+
+            if (isEncrypted)
+            {
+                return _crypter.DecryptFile(path);
+            }
+
             using (var sr = new StreamReader(path))
             {
                 return sr.ReadToEnd();

@@ -7,8 +7,9 @@
         /// Method for reading text file.
         /// </summary>
         /// <param name="path">Path to file to be read.</param>
+        /// <param name="isEncrypted">Indicates whether file is encrypted and should be decrypted before showing.</param>
         /// <returns>Content of the file.</returns>
-        string ReadTextFile(string path);
+        string ReadTextFile(string path, bool isEncrypted);
 
         /// <summary>
         /// Method for reading XML file.
