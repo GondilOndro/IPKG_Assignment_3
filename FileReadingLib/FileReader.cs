@@ -25,6 +25,16 @@ namespace FileReadingLib
             return content;
         }
 
+        public string ReadTextFile(string path, bool isEncrypted, RoleType? role)
+        {
+            if (role != null && !_roleSecurity.ValidateAccessToFile(path, role.Value))
+            {
+                throw new UnauthorizedAccessException("Content of this file is not accessible by your role.");
+            }
+
+            return ReadTextFile(path, isEncrypted);
+        }
+
         /// <inheritdoc/>
         public string ReadXmlFile(string path, bool isEncrypted)
         {
