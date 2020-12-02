@@ -1,0 +1,32 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:GuiSample.ViewModels;assembly=GuiSample"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="GuiSample.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="GuiSample">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <StackPanel Orientation="Vertical">
+      <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowDefinitions="Auto,Auto"  Margin="10">
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="File Type"></TextBlock>
+        <ListBox Grid.Row="1" Grid.Column="0" Width="120" ScrollViewer.VerticalScrollBarVisibility="Auto" Name="File types" SelectionMode="Single" Items="{Binding FileTypes}" SelectedItem="{Binding SelectedFileType}"></ListBox>
+        <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsEncrypted}">Is Encrypted</CheckBox>
+        <CheckBox Grid.Row="1" Grid.Column="2" IsChecked="{Binding UseRole}">Use Role</CheckBox>
+        <TextBlock Grid.Row="0" Grid.Column="3" Text="Role Type" IsVisible="{Binding UseRole}"></TextBlock>
+        <ListBox Name="Roles" Width="120" Grid.Row="1" Grid.Column="3" SelectionMode="Single" SelectedItem="{Binding SelectedRole}" Items="{Binding Roles}" IsVisible="{Binding UseRole}"></ListBox>
+        <TextBlock Text="File" Grid.Row="0" Grid.Column="4"></TextBlock>
+        <ListBox Name="Files" Grid.Row="1" Grid.Column="4" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="100" SelectionMode="Single" SelectedItem="{Binding SelectedFile}" Items="{Binding Files}"></ListBox>
+        <Button Content="show file" Grid.Row="1" Grid.Column="5" Command="{Binding ShowFile}"></Button>
+      </Grid>
+      <Panel>
+        <TextBox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Text="{Binding TextOfFile}" IsReadOnly="True" MinHeight="50"></TextBox>
+      </Panel>
+    </StackPanel>
+
+</Window>
